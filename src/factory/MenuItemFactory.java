@@ -14,10 +14,10 @@ public class MenuItemFactory {
     private static final List<String> snackNames = List.of("Чипсы", "Наггетсы", "Крылышки", "Гренки", "Начос");
 
 
-    public MenuItemFactory() {
+    private MenuItemFactory() { // private
     }
 
-    public MenuItem next(Category category) {
+    public static MenuItem next(Category category) {  //static
         if (category == Category.DRINK) {
             int itemID = random.nextInt(1000, 1999);
             String drinkName = drinkNames.get(random.nextInt(drinkNames.size()));

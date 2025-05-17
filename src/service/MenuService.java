@@ -5,26 +5,33 @@ import factory.MenuItemFactory;
 import model.Category;
 import model.MenuItem;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.IntStream;
+
 
 public class MenuService {
-    private static final Set<MenuItem> menuItems = new LinkedHashSet<>();
-    private static final MenuItemFactory itemFactory = new MenuItemFactory();
+    private static final Set<MenuItem> menuItems = new LinkedHashSet<>(); //static?
 
-    public void createTodayMenu() {
-        addItem(Category.MAIN_DISH);
-        addItem(Category.MAIN_DISH);
-        addItem(Category.MAIN_DISH);
-        addItem(Category.SNACK);
-        addItem(Category.SNACK);
-        addItem(Category.SNACK);
-        addItem(Category.DRINK);
-        addItem(Category.DRINK);
-        addItem(Category.DRINK);
-        addItem(Category.DESSERT);
-        addItem(Category.DESSERT);
-        addItem(Category.DESSERT);
+    public void createTodayMenu() { //тут может быть большой ENUM
+     /*   addItem(MAIN_DISH);
+        addItem(MAIN_DISH);
+        addItem(MAIN_DISH);
+        addItem(SNACK);
+        addItem(SNACK);
+        addItem(SNACK);
+        addItem(DRINK);
+        addItem(DRINK);
+        addItem(DRINK);
+        addItem(DESSERT);
+        addItem(DESSERT);
+        addItem(DESSERT);*/
+        Arrays.stream(Category.values()).forEach(category ->
+                IntStream.range(0, 3).forEach(i ->
+                        menuItems.add(MenuItemFactory.next(category))
+                )
+        );
     }
 
     public void printMenuItems() {
@@ -35,20 +42,19 @@ public class MenuService {
         }
     }
 
-    public void addItem(Category category) {
-        menuItems.add(itemFactory.next(category));
+    public void addItem(final Category category) {
+        menuItems.add(MenuItemFactory.next(category));
     }
 
-    public void removeItem(MenuItem item) {
+    public void removeItem(final MenuItem item) {
         menuItems.remove(item);
     }
 
-    public MenuItem findItem(String itemName) throws MenuItemNotFoundException {
-        Optional<MenuItem> orderedMenuItem = menuItems.stream().filter(item -> item.getItemName().equalsIgnoreCase(itemName)).findFirst();
-        if (orderedMenuItem.isEmpty()) {
-            throw new MenuItemNotFoundException("Блюдо " + itemName + " не найдено в меню!");
-        }
-        return orderedMenuItem.get();
+    public MenuItem findItem(final String itemName) throws MenuItemNotFoundException { //Можно сократить немного
+        return menuItems.stream()
+                .filter(item -> item.getItemName().equalsIgnoreCase(itemName))
+                .findFirst()
+                .orElseThrow(() -> new MenuItemNotFoundException("Блюдо " + itemName + " не найдено в меню!"));
     }
 }
 

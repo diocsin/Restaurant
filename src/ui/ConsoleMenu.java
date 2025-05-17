@@ -11,11 +11,11 @@ import java.util.*;
 
 public class ConsoleMenu {
     private static final Scanner scanner = new Scanner(System.in);
-    private static final OrderService orderService = new OrderService();
-    private static final MenuService menuService = new MenuService();
-    private static final PaymentService paymentService = new PaymentService();
-    private static Order order;
-    private static Map<Order, Payment> listOfOrders = new HashMap<>();
+    private static final OrderService orderService = new OrderService(); // static?
+    private static final MenuService menuService = new MenuService(); // static?
+    private static final PaymentService paymentService = new PaymentService(); // static?
+    private static Order order; // static?
+    private static Map<Order, Payment> listOfOrders = new HashMap<>(); // static?
 
     public void start() {
         menuService.createTodayMenu();
@@ -43,6 +43,7 @@ public class ConsoleMenu {
                     break;
                 case 6:
                     return;
+                default: System.out.println("Неверное действие");
             }
         }
     }
@@ -113,14 +114,14 @@ public class ConsoleMenu {
         }
     }
 
-    public void payOrder(Order order) {
+    public void payOrder(final Order order) {
         System.out.println("Введите способ оплаты:");
-        PaymentMethod paymentMethod = PaymentMethod.valueOf(scanner.next().toUpperCase());
         try {
             paymentService.checkOrderStatus(order);
         } catch (OrderAlreadyPaidException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
+        PaymentMethod paymentMethod = PaymentMethod.valueOf(scanner.next().toUpperCase()); // тут можно проверить вдруг ввел хрень
         Payment payment = paymentService.createPayment(order, paymentMethod);
         listOfOrders.put(order, payment);
     }

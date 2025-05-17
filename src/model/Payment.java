@@ -3,9 +3,9 @@ package model;
 import java.util.Objects;
 
 public class Payment {
-    private static Integer paymentId = 0;
-    private static double paymentAmount;
-    private static PaymentMethod paymentMethod;
+    private static Integer paymentId = 0;  // тут глобальный счетчик надо смотри как в OrderBuilder
+    private static double paymentAmount;  //static ?
+    private static PaymentMethod paymentMethod;  //static ?
 
     public Payment(double paymentAmount, PaymentMethod paymentMethod) {
         paymentId++;

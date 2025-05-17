@@ -9,15 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderBuilder {
-    private static Integer orderId = 0;
+    private static int orderIdCounter = 0; // глобальный счётчик
+    private final int orderId;             // уникальный ID заказа
     private Customer customer;
     private List<MenuItem> listOfDishes = new ArrayList<>();
     private Status orderStatus;
     private double orderAmount;
 
     public OrderBuilder() {
-        orderId++;
-        this.orderId = orderId;
+        this.orderId = ++orderIdCounter;
     }
 
     public OrderBuilder customer(Customer customer) {

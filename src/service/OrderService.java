@@ -2,29 +2,27 @@ package service;
 
 
 import builder.OrderBuilder;
-import model.*;
+import model.Customer;
+import model.MenuItem;
+import model.Order;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import static model.Status.CREATED;
 
 public class OrderService {
 
-    public Order createOrder(Customer customer) {
-        return new OrderBuilder().customer(customer).orderStatus(Status.CREATED).build();
+    public Order createOrder(final Customer customer) {
+        return new OrderBuilder().customer(customer).orderStatus(CREATED).build();
     }
 
-    public void addMenuItemToOrder(Order order, MenuItem menuItem) {
+    public void addMenuItemToOrder(final Order order, final MenuItem menuItem) {
         order.getListOfDishes().add(menuItem);
     }
 
-    public void removeMenuItemsFromOrder(Order order, MenuItem menuItem) {
+    public void removeMenuItemsFromOrder(final Order order, final MenuItem menuItem) {
         order.getListOfDishes().remove(menuItem);
     }
 
-    public void recalculateOrderAmount(Order order) {
+    public void recalculateOrderAmount(final Order order) {
         double orderAmount = order.getListOfDishes().stream().mapToDouble(MenuItem::getItemPrice).sum();
         order.setOrderAmount(orderAmount);
     }
