@@ -8,7 +8,7 @@ import model.Status;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderBuilder {
+public class OrderBuilder { // builder патерн не так пишется если хотел его использовать.
     private static int orderIdCounter = 0; // глобальный счётчик
     private final int orderId;             // уникальный ID заказа
     private Customer customer;
